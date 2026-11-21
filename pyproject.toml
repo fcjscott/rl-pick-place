@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rlpp"
+version = "0.1.0"
+description = "DQN vs SAC vs PPO on Fetch pick-and-place: a hands-on RL study"
+requires-python = ">=3.10"
+dependencies = [
+    "gymnasium-robotics==1.4.2",
+    # MuJoCo 3.11+ breaks the Fetch environments in gymnasium-robotics 1.4.2
+    # (joint-type check fails at env creation). 3.10.0 is the newest that works.
+    "mujoco==3.10.0",
+    "numpy",
+    "imageio",
+    "imageio-ffmpeg",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+# Needed from milestone M2 onward (training).
+train = ["stable-baselines3>=2.3", "tensorboard"]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::UserWarning", "ignore::DeprecationWarning"]
